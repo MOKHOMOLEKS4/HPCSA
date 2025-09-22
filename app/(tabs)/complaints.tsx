@@ -1,52 +1,69 @@
-import { TriangleAlert as AlertTriangle, Calendar, CircleCheck as CheckCircle, Clock, FileText, Plus, User } from 'lucide-react-native';
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  TriangleAlert as AlertTriangle,
+  Calendar,
+  CircleCheck as CheckCircle,
+  Clock,
+  FileText,
+  Plus,
+  User,
+} from "lucide-react-native";
+import React, { useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import Toast from "react-native-toast-message";
 
 const complaints = [
   {
-    id: '1',
-    title: 'Professional Misconduct',
-    practitioner: 'Dr. John Doe',
-    status: 'investigating',
-    date: '2024-01-15',
-    caseNumber: 'HPCSA-2024-001',
-    description: 'Complaint regarding unprofessional conduct during patient consultation.',
+    id: "1",
+    title: "Professional Misconduct",
+    practitioner: "Dr. John Doe",
+    status: "investigating",
+    date: "2024-01-15",
+    caseNumber: "HPCSA-2024-001",
+    description:
+      "Complaint regarding unprofessional conduct during patient consultation.",
   },
   {
-    id: '2',
-    title: 'Negligence',
-    practitioner: 'Dr. Jane Smith',
-    status: 'resolved',
-    date: '2024-01-10',
-    caseNumber: 'HPCSA-2024-002',
-    description: 'Patient care standards not met during treatment procedure.',
+    id: "2",
+    title: "Negligence",
+    practitioner: "Dr. Jane Smith",
+    status: "resolved",
+    date: "2024-01-10",
+    caseNumber: "HPCSA-2024-002",
+    description: "Patient care standards not met during treatment procedure.",
   },
   {
-    id: '3',
-    title: 'Breach of Confidentiality',
-    practitioner: 'Dr. Mike Johnson',
-    status: 'pending',
-    date: '2024-01-20',
-    caseNumber: 'HPCSA-2024-003',
-    description: 'Unauthorized disclosure of patient information to third parties.',
-  },
+  id: '3',
+  title: 'Breach of Confidentiality',
+  practitioner: 'Dr. Mike Johnson',
+  status: 'pending',
+  date: '2024-01-20', 
+  caseNumber: 'HPCSA-2024-003', 
+  description: 'Unauthorized disclosure of patient information to third parties.', }, 
 ];
+
 
 export default function ComplaintsScreen() {
   const [showNewComplaintForm, setShowNewComplaintForm] = useState(false);
   const [newComplaint, setNewComplaint] = useState({
-    practitioner: '',
-    description: '',
-    category: '',
+    practitioner: "",
+    description: "",
+    category: "",
   });
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'resolved':
+      case "resolved":
         return <CheckCircle size={20} color="#059669" />;
-      case 'investigating':
+      case "investigating":
         return <Clock size={20} color="#f59e0b" />;
-      case 'pending':
+      case "pending":
         return <AlertTriangle size={20} color="#dc2626" />;
       default:
         return <FileText size={20} color="#6b7280" />;
@@ -55,15 +72,27 @@ export default function ComplaintsScreen() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'resolved':
-        return '#059669';
-      case 'investigating':
-        return '#f59e0b';
-      case 'pending':
-        return '#dc2626';
+      case "resolved":
+        return "#059669";
+      case "investigating":
+        return "#f59e0b";
+      case "pending":
+        return "#dc2626";
       default:
-        return '#6b7280';
+        return "#6b7280";
     }
+  };
+
+  const handleSubmitComplaint = () => {
+    Toast.show({
+      type: "success",
+      text1: "Complaint Submitted",
+      text2: "You have successfully logged a complaint ✅",
+    });
+
+    // Reset form & return to list
+    setNewComplaint({ practitioner: "", description: "", category: "" });
+    setShowNewComplaintForm(false);
   };
 
   return (
@@ -71,7 +100,9 @@ export default function ComplaintsScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Complaints</Text>
-        <Text style={styles.headerSubtitle}>File and track professional misconduct cases</Text>
+        <Text style={styles.headerSubtitle}>
+          File and track professional misconduct cases
+        </Text>
       </View>
 
       {!showNewComplaintForm ? (
@@ -94,7 +125,12 @@ export default function ComplaintsScreen() {
                   <Text style={styles.complaintTitle}>{complaint.title}</Text>
                   <View style={styles.statusContainer}>
                     {getStatusIcon(complaint.status)}
-                    <Text style={[styles.statusText, { color: getStatusColor(complaint.status) }]}>
+                    <Text
+                      style={[
+                        styles.statusText,
+                        { color: getStatusColor(complaint.status) },
+                      ]}
+                    >
                       {complaint.status.toUpperCase()}
                     </Text>
                   </View>
@@ -138,31 +174,46 @@ export default function ComplaintsScreen() {
             </View>
 
             <View style={styles.formField}>
-              <Text style={styles.fieldLabel}>Practitioner Name/Registration Number</Text>
+              <Text style={styles.fieldLabel}>
+                Practitioner Name/Registration Number
+              </Text>
               <TextInput
                 style={styles.textInput}
                 placeholder="Enter practitioner details"
                 value={newComplaint.practitioner}
-                onChangeText={(text) => setNewComplaint({ ...newComplaint, practitioner: text })}
+                onChangeText={(text) =>
+                  setNewComplaint({ ...newComplaint, practitioner: text })
+                }
               />
             </View>
 
             <View style={styles.formField}>
               <Text style={styles.fieldLabel}>Complaint Category</Text>
               <View style={styles.categoryButtons}>
-                {['Professional Misconduct', 'Negligence', 'Breach of Confidentiality', 'Other'].map((category) => (
+                {[
+                  "Professional Misconduct",
+                  "Negligence",
+                  "Breach of Confidentiality",
+                  "Other",
+                ].map((category) => (
                   <TouchableOpacity
                     key={category}
                     style={[
                       styles.categoryButton,
-                      newComplaint.category === category && styles.categoryButtonActive
+                      newComplaint.category === category &&
+                        styles.categoryButtonActive,
                     ]}
-                    onPress={() => setNewComplaint({ ...newComplaint, category })}
+                    onPress={() =>
+                      setNewComplaint({ ...newComplaint, category })
+                    }
                   >
-                    <Text style={[
-                      styles.categoryButtonText,
-                      newComplaint.category === category && styles.categoryButtonTextActive
-                    ]}>
+                    <Text
+                      style={[
+                        styles.categoryButtonText,
+                        newComplaint.category === category &&
+                          styles.categoryButtonTextActive,
+                      ]}
+                    >
                       {category}
                     </Text>
                   </TouchableOpacity>
@@ -178,18 +229,24 @@ export default function ComplaintsScreen() {
                 multiline
                 numberOfLines={6}
                 value={newComplaint.description}
-                onChangeText={(text) => setNewComplaint({ ...newComplaint, description: text })}
+                onChangeText={(text) =>
+                  setNewComplaint({ ...newComplaint, description: text })
+                }
               />
             </View>
 
-            <TouchableOpacity style={styles.submitButton}>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleSubmitComplaint}
+            >
               <Text style={styles.submitButtonText}>Submit Complaint</Text>
             </TouchableOpacity>
 
             <View style={styles.disclaimer}>
               <AlertTriangle size={16} color="#f59e0b" />
               <Text style={styles.disclaimerText}>
-                All complaints are treated confidentially and investigated according to HPCSA procedures.
+                All complaints are treated confidentially and investigated
+                according to HPCSA procedures.
               </Text>
             </View>
           </View>
@@ -200,211 +257,125 @@ export default function ComplaintsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8fafc',
-  },
+  container: { flex: 1, backgroundColor: "#f8fafc" },
   header: {
-    backgroundColor: '#1e3a8a',
+    backgroundColor: "#1e3a8a",
     paddingTop: 60,
     paddingBottom: 20,
     paddingHorizontal: 20,
   },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 4,
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    color: '#dbeafe',
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
+  headerTitle: { fontSize: 24, fontWeight: "bold", color: "#fff" },
+  headerSubtitle: { fontSize: 14, color: "#dbeafe" },
+  content: { flex: 1, padding: 20 },
   newComplaintButton: {
-    backgroundColor: '#dc2626',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#dc2626",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 16,
     borderRadius: 12,
     marginBottom: 24,
   },
   newComplaintButtonText: {
-    color: '#ffffff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 8,
   },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 16,
-  },
+  section: { marginBottom: 24 },
+  sectionTitle: { fontSize: 18, fontWeight: "bold", color: "#1f2937" },
   complaintCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   complaintHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 12,
   },
-  complaintTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    flex: 1,
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginLeft: 4,
-  },
-  complaintInfo: {
-    marginBottom: 12,
-    gap: 8,
-  },
-  infoItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  infoText: {
-    fontSize: 14,
-    color: '#6b7280',
-    marginLeft: 8,
-  },
-  complaintDescription: {
-    fontSize: 14,
-    color: '#374151',
-    marginBottom: 12,
-    lineHeight: 20,
-  },
-  viewDetailsButton: {
-    alignSelf: 'flex-start',
-  },
-  viewDetailsText: {
-    fontSize: 14,
-    color: '#1e3a8a',
-    fontWeight: '500',
-  },
+  complaintTitle: { fontSize: 16, fontWeight: "bold", color: "#1f2937" },
+  statusContainer: { flexDirection: "row", alignItems: "center" },
+  statusText: { fontSize: 12, fontWeight: "bold", marginLeft: 4 },
+  complaintInfo: { marginBottom: 12 },
+  infoItem: { flexDirection: "row", alignItems: "center", marginBottom: 4 },
+  infoText: { fontSize: 14, color: "#6b7280", marginLeft: 8 },
+  complaintDescription: { fontSize: 14, color: "#374151", marginBottom: 12 },
+  viewDetailsButton: { alignSelf: "flex-start" },
+  viewDetailsText: { fontSize: 14, color: "#1e3a8a", fontWeight: "500" },
   formContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#fff",
     padding: 20,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   formHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 24,
   },
-  formTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-  },
-  cancelButton: {
-    fontSize: 16,
-    color: '#6b7280',
-  },
-  formField: {
-    marginBottom: 20,
-  },
-  fieldLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 8,
-  },
+  formTitle: { fontSize: 20, fontWeight: "bold", color: "#1f2937" },
+  cancelButton: { fontSize: 16, color: "#6b7280" },
+  formField: { marginBottom: 20 },
+  fieldLabel: { fontSize: 16, fontWeight: "600", color: "#374151" },
   textInput: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: "#d1d5db",
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: '#374151',
+    color: "#374151",
   },
   textArea: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: "#d1d5db",
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: '#374151',
-    textAlignVertical: 'top',
+    color: "#374151",
     minHeight: 120,
+    textAlignVertical: "top",
   },
-  categoryButtons: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
+  categoryButtons: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   categoryButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: "#f3f4f6",
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: "#d1d5db",
+    marginRight: 8,
+    marginBottom: 8,
   },
-  categoryButtonActive: {
-    backgroundColor: '#1e3a8a',
-    borderColor: '#1e3a8a',
-  },
-  categoryButtonText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  categoryButtonTextActive: {
-    color: '#ffffff',
-  },
+  categoryButtonActive: { backgroundColor: "#1e3a8a", borderColor: "#1e3a8a" },
+  categoryButtonText: { fontSize: 14, color: "#6b7280" },
+  categoryButtonTextActive: { color: "#fff" },
   submitButton: {
-    backgroundColor: '#059669',
+    backgroundColor: "#059669",
     padding: 16,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 16,
   },
-  submitButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  submitButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
   disclaimer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    alignItems: "flex-start",
     padding: 12,
-    backgroundColor: '#fef3c7',
+    backgroundColor: "#fef3c7",
     borderRadius: 8,
   },
   disclaimerText: {
     fontSize: 12,
-    color: '#92400e',
+    color: "#92400e",
     marginLeft: 8,
     flex: 1,
     lineHeight: 16,

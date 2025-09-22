@@ -1,113 +1,261 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Collapsible } from '@/components/ui/collapsible';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+import { BookOpen, FileCheck, FileText, Phone, Shield, Users } from 'lucide-react-native';
 import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function TabTwoScreen() {
+const quickActions = [
+  {
+    id: '1',
+    title: 'Register Practitioner',
+    subtitle: 'Apply for professional registration',
+    icon: Users,
+    color: '#1e3a8a',
+  },
+  {
+    id: '2',
+    title: 'Renew License',
+    subtitle: 'Renew License ',
+    icon: FileText,
+    color: '#dc2626',
+  },
+  {
+    id: '3',
+    title: 'Verify Registration',
+    subtitle: 'Check practitioner status',
+    icon: FileCheck,
+    color: '#059669',
+  },
+  {
+    id: '4',
+    title: 'Professional Standards',
+    subtitle: 'View ethical guidelines',
+    icon: BookOpen,
+    color: '#7c3aed',
+  },
+];
+
+const professionalBoards = [
+  'Medical and Dental Professions Board',
+  'Psychology Board',
+  'Pharmacy Board',
+  'Emergency Care Board',
+  'Optometry and Dispensing Opticians Board',
+  'Physiotherapy, Podiatry and Biokinetics Board',
+  'Occupational Therapy Board',
+  'Speech-Language Pathology and Audiology Board',
+  'Radiography and Clinical Technology Board',
+  'Nutrition and Dietetics Board',
+  'Environmental Health Board',
+  'Medical Technology Board',
+];
+
+export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <Shield size={32} color="#ffffff" />
+          <Text style={styles.headerTitle}>HPCSA</Text>
+        </View>
+        <Text style={styles.headerSubtitle}>
+          Health Professions Council of South Africa
+        </Text>
+        <Text style={styles.headerDescription}>
+          Protecting the public through professional regulation
+        </Text>
+      </View>
+
+      {/* Quick Actions */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Quick Actions</Text>
+        <View style={styles.actionGrid}>
+          {quickActions.map((action) => {
+            const IconComponent = action.icon;
+            return (
+              <TouchableOpacity key={action.id} style={styles.actionCard}>
+                <View style={[styles.actionIcon, { backgroundColor: `${action.color}15` }]}>
+                  <IconComponent size={24} color={action.color} />
+                </View>
+                <Text style={styles.actionTitle}>{action.title}</Text>
+                <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </View>
+
+      {/* Professional Boards */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Professional Boards</Text>
+        <View style={styles.boardsList}>
+          {professionalBoards.map((board, index) => (
+            <TouchableOpacity key={index} style={styles.boardItem}>
+              <Text style={styles.boardText}>{board}</Text>
+              <Text style={styles.boardArrow}>›</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      {/* Contact Information */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Contact Us</Text>
+        <TouchableOpacity style={styles.contactCard}>
+          <Phone size={20} color="#1e3a8a" />
+          <View style={styles.contactInfo}>
+            <Text style={styles.contactTitle}>General Enquiries</Text>
+            <Text style={styles.contactDetails}>(+27) 12 338 9300</Text>
+            <Text style={styles.contactDetails}>553 Madiba St, Arcadia, Pretoria, 0002</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>
+          Ensuring professional excellence in health care
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
   },
-  titleContainer: {
+  header: {
+    backgroundColor: '#1e3a8a',
+    paddingTop: 60,
+    paddingBottom: 40,
+    paddingHorizontal: 20,
+  },
+  headerContent: {
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginLeft: 12,
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: '#93c5fd',
+    marginBottom: 8,
+  },
+  headerDescription: {
+    fontSize: 14,
+    color: '#dbeafe',
+    opacity: 0.9,
+  },
+  section: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1f2937',
+    marginBottom: 16,
+  },
+  actionGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  actionCard: {
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 12,
+    width: '48%',
+    marginBottom: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  actionIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  actionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1f2937',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  actionSubtitle: {
+    fontSize: 12,
+    color: '#6b7280',
+    textAlign: 'center',
+  },
+  boardsList: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  boardItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+  },
+  boardText: {
+    fontSize: 14,
+    color: '#374151',
+    flex: 1,
+  },
+  boardArrow: {
+    fontSize: 18,
+    color: '#9ca3af',
+  },
+  contactCard: {
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  contactInfo: {
+    marginLeft: 12,
+  },
+  contactTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1f2937',
+  },
+  contactDetails: {
+    fontSize: 14,
+    color: '#6b7280',
+  },
+  footer: {
+    padding: 40,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    fontStyle: 'italic',
   },
 });
