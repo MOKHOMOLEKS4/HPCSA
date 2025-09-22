@@ -1,5 +1,5 @@
 import { TriangleAlert as AlertTriangle, Calendar, CircleCheck as CheckCircle, Clock, FileText, Plus, User } from 'lucide-react-native';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const complaints = [

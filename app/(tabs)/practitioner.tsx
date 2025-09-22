@@ -1,5 +1,5 @@
 import { CircleAlert as AlertCircle, CircleCheck as CheckCircle, Mail, MapPin, Phone, Search, User } from 'lucide-react-native';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const practitioners = [
@@ -42,11 +42,17 @@ export default function PractitionersScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 
-  const filteredPractitioners = practitioners.filter(practitioner =>
-    practitioner.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    practitioner.registrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    practitioner.profession.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredPractitioners = practitioners.filter((practitioner) => {
+    const matchesSearch =
+      practitioner.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      practitioner.registrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      practitioner.profession.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesFilter =
+      selectedFilter === 'all' || practitioner.status === selectedFilter;
+
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <View style={styles.container}>
