@@ -3,8 +3,11 @@ import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LogIn, OctagonAlert, User, UserPlus } from "lucide-react-native";
 
 export default function TabLayout() {
@@ -29,7 +32,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Explore (if you still want it) */}
+      {/* Practitioner Dashboard */}
       <Tabs.Screen
         name="explore"
         options={{
@@ -38,6 +41,18 @@ export default function TabLayout() {
             <IconSymbol size={28} name="house.fill" color={color} />
           ),
         }}
+      />
+
+      {/* CLient Dashboard*/}
+      <Tabs.Screen
+        name='clientDashboard'
+        options={{
+          title:'Dashboard',
+          tabBarIcon: ({color})=> (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+
       />
 
       {/* Practitioner (you can rename/remove if not needed) */}
@@ -68,7 +83,7 @@ export default function TabLayout() {
         options={{
           title: 'CPD',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="chart.bar.fill" color={color} />
+            <Ionicons name="stats-chart" size={28} color={color} />
           ),
         }}
       />
@@ -79,7 +94,7 @@ export default function TabLayout() {
         options={{
           title: 'Payments',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="creditcard.fill" color={color} />
+           <MaterialIcons name="payment" size={28} color={color} />
           ),
         }}
       />
